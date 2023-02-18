@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion rootProject.compileSdk
-    buildToolsVersion  rootProject.buildTools
+    buildToolsVersion rootProject.buildTools
 
     defaultConfig {
         applicationId "com.github.iojjj.rcbs.app"
@@ -17,19 +17,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    flavorDimensions "mode"
     productFlavors {
         defaultConfig {
-            minSdkVersion 9
-            targetSdkVersion 25
-        }
-        instantRun {
-            minSdkVersion 21
-            targetSdkVersion 25
+            dimension "mode"
+            minSdkVersion 14
+            targetSdkVersion 33
         }
     }
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile project(':library')
+    implementation project(':library')
+    implementation 'androidx.appcompat:appcompat:1.6.1'
 }

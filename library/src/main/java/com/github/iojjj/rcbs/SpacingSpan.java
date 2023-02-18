@@ -2,12 +2,13 @@ package com.github.iojjj.rcbs;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.support.annotation.IntRange;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.style.LineBackgroundSpan;
 import android.text.style.ReplacementSpan;
 import android.util.SparseIntArray;
+
+import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * Span that will be placed between text parts to simulate spacing between them.
