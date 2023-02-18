@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
     private void setTextByParts(@NonNull String[] parts, @NonNull TextView textView, @TextAlignment int alignment) {
         final RoundedCornersBackgroundSpan.Builder builder = new RoundedCornersBackgroundSpan.Builder(this)
                 .setTextPaddingRes(R.dimen.rcbs_padding)
+//                .setTextPaddingXY(100, 10)
                 .setCornersRadiusRes(R.dimen.rcbs_radius);
         for (int i = 0; i < parts.length; i++) {
             final String part = parts[i];

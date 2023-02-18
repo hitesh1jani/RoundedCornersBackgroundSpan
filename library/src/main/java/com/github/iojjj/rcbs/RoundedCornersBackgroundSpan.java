@@ -65,9 +65,14 @@ public final class RoundedCornersBackgroundSpan implements LineBackgroundSpan {
     private final float mRadius;
 
     /**
-     * Text padding.
+     * Text padding X.
      */
-    private final float mPadding;
+    private final float mPaddingX;
+
+    /**
+     * Text padding Y.
+     */
+    private final float mPaddingY;
 
     /**
      * Text alignment.
@@ -94,7 +99,8 @@ public final class RoundedCornersBackgroundSpan implements LineBackgroundSpan {
     private RoundedCornersBackgroundSpan(@NonNull Builder builder) {
         mPaint.setAntiAlias(true);
         mRadius = builder.mRadius;
-        mPadding = builder.mPadding;
+        mPaddingX = builder.mPaddingX;
+        mPaddingY = builder.mPaddingY;
         mSeparatorWidth = builder.mSeparatorWidth;
         mTextAlignment = builder.mTextAlignment;
         for (final Pair<CharSequence, BackgroundHolder> textPart : builder.mTextParts) {
@@ -169,10 +175,10 @@ public final class RoundedCornersBackgroundSpan implements LineBackgroundSpan {
             l += prevTextWidth;
             r = l + curTextWidth;
         }
-        final float rectLeft = l - mPadding;
-        final float rectTop = top - mPadding;
-        final float rectRight = r + mPadding;
-        final float rectBottom = baseline + p.descent() + mPadding;
+        final float rectLeft = l - mPaddingX;
+        final float rectTop = top - mPaddingY;
+        final float rectRight = r + mPaddingX;
+        final float rectBottom = baseline + p.descent() + mPaddingY;
         final LineDataHolder lineDataHolder = new LineDataHolder.Builder()
                 .setTextPaint(textPaint)
                 .setStartIntText(startInText)
@@ -256,9 +262,9 @@ public final class RoundedCornersBackgroundSpan implements LineBackgroundSpan {
         final float width = fRight - fLeft;
         final float consumedWidth = mostRight - mostLeft;
         if (mTextAlignment == ALIGN_CENTER) {
-            return (width - consumedWidth + mPadding) / 2;
+            return (width - consumedWidth + mPaddingX) / 2;
         } else if (mTextAlignment == ALIGN_END) {
-            return width - consumedWidth + mPadding;
+            return width - consumedWidth + mPaddingX;
         }
         return 0;
     }
@@ -327,7 +333,8 @@ public final class RoundedCornersBackgroundSpan implements LineBackgroundSpan {
 
         private final Context mContext;
         private float mRadius;
-        private float mPadding;
+        private float mPaddingX;
+        private float mPaddingY;
         private float mPartsSpacing;
         private float mSeparatorWidth;
         private final List<Pair<CharSequence, BackgroundHolder>> mTextParts = new ArrayList<>();
@@ -359,7 +366,19 @@ public final class RoundedCornersBackgroundSpan implements LineBackgroundSpan {
          * @param padding text padding in pixels
          */
         public Builder setTextPadding(float padding) {
-            mPadding = padding;
+            mPaddingX = mPaddingY = padding;
+            return this;
+        }
+
+        /**
+         * Set text padding.
+         *
+         * @param paddingX, x text padding in pixels
+         * @param paddingY, y text padding in pixels
+         */
+        public Builder setTextPaddingXY(float paddingX, float paddingY) {
+            mPaddingX = paddingX;
+            mPaddingY = paddingY;
             return this;
         }
 
@@ -462,7 +481,7 @@ public final class RoundedCornersBackgroundSpan implements LineBackgroundSpan {
             }
             boolean first = true;
             final SpannableStringBuilder builder = new SpannableStringBuilder();
-            mSeparatorWidth = 2 * mPadding + mPartsSpacing;
+            mSeparatorWidth = 2 * mPaddingX + mPartsSpacing;
             for (final Pair<CharSequence, BackgroundHolder> stringPart : mTextParts) {
                 if (first) {
                     first = false;
