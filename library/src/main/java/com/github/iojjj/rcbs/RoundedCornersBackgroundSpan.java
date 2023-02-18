@@ -11,6 +11,7 @@ import android.text.Spanned;
 import android.text.SpannedString;
 import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.LineBackgroundSpan;
 import android.text.style.MetricAffectingSpan;
 import android.util.Pair;
@@ -405,12 +406,29 @@ public final class RoundedCornersBackgroundSpan implements LineBackgroundSpan {
          *
          * @param textPart text part
          * @param bgColor  background color
+         * @param textColor  text color
          */
-        public Builder addTextPart(@NonNull CharSequence textPart, @ColorInt int bgColor) {
+        public Builder addTextPart(@NonNull CharSequence textPart, @ColorInt int bgColor, @ColorInt int textColor) {
+            if (textColor != -1) {
+                final ForegroundColorSpan colorSpan = new ForegroundColorSpan(textColor);
+                final SpannableStringBuilder builder = new SpannableStringBuilder(textPart);
+                builder.setSpan(colorSpan, 0, textPart.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                textPart = builder;
+            }
             final BackgroundHolder backgroundHolder = new BackgroundHolder(bgColor);
             final Pair<CharSequence, BackgroundHolder> pair = Pair.create(textPart, backgroundHolder);
             mTextParts.add(pair);
             return this;
+        }
+
+        /**
+         * Add text part with background.
+         *
+         * @param textPart text part
+         * @param bgColor  background color
+         */
+        public Builder addTextPart(@NonNull CharSequence textPart, @ColorInt int bgColor) {
+            return addTextPart(textPart, bgColor, -1);
         }
 
         /**
