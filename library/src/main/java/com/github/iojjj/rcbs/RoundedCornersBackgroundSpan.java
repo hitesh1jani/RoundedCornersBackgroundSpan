@@ -409,16 +409,11 @@ public final class RoundedCornersBackgroundSpan implements LineBackgroundSpan {
          * @param textColor  text color
          */
         public Builder addTextPart(@NonNull CharSequence textPart, @ColorInt int bgColor, @ColorInt int textColor) {
-            if (textColor != -1) {
-                final ForegroundColorSpan colorSpan = new ForegroundColorSpan(textColor);
-                final SpannableStringBuilder builder = new SpannableStringBuilder(textPart);
-                builder.setSpan(colorSpan, 0, textPart.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                textPart = builder;
-            }
-            final BackgroundHolder backgroundHolder = new BackgroundHolder(bgColor);
-            final Pair<CharSequence, BackgroundHolder> pair = Pair.create(textPart, backgroundHolder);
-            mTextParts.add(pair);
-            return this;
+            final ForegroundColorSpan colorSpan = new ForegroundColorSpan(textColor);
+            final SpannableStringBuilder builder = new SpannableStringBuilder(textPart);
+            builder.setSpan(colorSpan, 0, textPart.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            textPart = builder;
+            return addTextPart(textPart, bgColor);
         }
 
         /**
@@ -428,7 +423,10 @@ public final class RoundedCornersBackgroundSpan implements LineBackgroundSpan {
          * @param bgColor  background color
          */
         public Builder addTextPart(@NonNull CharSequence textPart, @ColorInt int bgColor) {
-            return addTextPart(textPart, bgColor, -1);
+            final BackgroundHolder backgroundHolder = new BackgroundHolder(bgColor);
+            final Pair<CharSequence, BackgroundHolder> pair = Pair.create(textPart, backgroundHolder);
+            mTextParts.add(pair);
+            return this;
         }
 
         /**
